@@ -28,28 +28,26 @@
 
 This project is intended to be used with the latest Active LTS release of [Node.js][nodejs].
 
-### Use as a repository template
-
-To start, just click the **[Use template][repo-template-action]** link (or the green button). Start adding your code in the `src` and unit tests in the `__tests__` directories.
-
 ### Clone repository
 
 To clone the repository, use the following commands:
 
 ```sh
-git clone https://github.com/jsynowiec/node-typescript-boilerplate
-cd node-typescript-boilerplate
-npm install
+git clone https://github.com/Joshswooft/mp3-tech-test
+cd mp3-tech-test
 ```
 
-### Download latest release
+### Installation
 
-Download and unzip the current **main** branch or one of the tags:
+First install [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) and install node version `v18.13.0` (any version 18 LTS should do)
 
-```sh
-wget https://github.com/jsynowiec/node-typescript-boilerplate/archive/main.zip -O node-typescript-boilerplate.zip
-unzip node-typescript-boilerplate.zip && rm node-typescript-boilerplate.zip
-```
+E.g. `nvm install 18.13.0`
+
+This project is using pnpm (a more disk optimized version of npm), you can find installation instructions for pnpm [here](https://pnpm.io/installation).
+Alternatively you can stick to using npm.
+
+Note: I had some issues with the pnpm registry not finding certain files so for now npm will be your best bet.
+`pnpm install` or `npm install`
 
 ## Available Scripts
 
@@ -62,7 +60,15 @@ unzip node-typescript-boilerplate.zip && rm node-typescript-boilerplate.zip
 - `test` - run tests,
 - `test:watch` - interactive watch mode to automatically re-run tests
 
-## Additional Information
+## Analyzing audio
+
+First install [checkmate mp3 analyzer](https://checkmate.gissen.nl/download.php).
+
+For CLI:
+
+```sh
+mpck assets/song1.mp3
+```
 
 ### Why include Volta
 
