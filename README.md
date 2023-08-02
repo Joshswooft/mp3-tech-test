@@ -70,6 +70,20 @@ For CLI:
 mpck assets/song1.mp3
 ```
 
+If instead you want to send requests against the API you can use the `upload.sh` script.
+
+First make sure you have execute permissions:
+
+```sh
+chmod +x upload.sh
+```
+
+Example usage:
+
+```sh
+./upload.sh assets/song1.mp3
+```
+
 ### Why include Volta
 
 [Volta][volta]’s toolchain always keeps track of where you are, it makes sure the tools you use always respect the settings of the project you’re working on. This means you don’t have to worry about changing the state of your installed software when switching between projects. For example, it's [used by engineers at LinkedIn][volta-tomdale] to standardize tools and have reproducible development environments.
