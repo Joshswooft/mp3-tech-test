@@ -24,6 +24,86 @@
 
 🤲 Free as in speech: available under the APLv2 license.
 
+## Description
+
+The aim of this task is to create an API endpoint that accepts an MP3 file upload and responds with the number of frames in the file.
+
+This program provides a simple express server with an API endpoint (`/file-upload`) which allows a user to upload an .mp3 file and it returns a number containing the number of frames.
+
+## Known limitations
+
+This program doesn't handle variable/average bit rate (VBR/ABR) mp3 files. It might also fail to get an accurate frame rate for files that contain additional wrappers/meta data. 
+
+It doesn't contain a complete header corruption check. For instance theres certain audio modes that are not allowed to be combined with various MPEG layers and versions. In cases like this the program will try to run regardless.
+
+One of the CBR tests fails, and it's because of some channel/audio setting that needs to be accounted for within frame count calculation.
+
+
+## Background Information
+
+This section contains some information about mp3 files.
+
+Sources:
+- https://en.wikipedia.org/wiki/MP3#File_structure
+- https://www.codeproject.com/Articles/8295/MPEG-Audio-Frame-Header
+- https://checkmate.gissen.nl/headers.php
+
+An mp3 file is made up of MP3 frames consisting of a header and a data block. 
+It is a sequence of frames which don't have arbitrary frame boundaries.
+
+The data block contains the compressed audio info in terms of frequencies and amplitudes. But really its the header block which we are interested in the most. 
+
+The header block contains a "sync word" which describes the start of a valid frame. 
+Next bit defines the MPEG standard and 2 bits that indicate that layer 3 is used; hence MPEG-1 Audio, Audio Layer 3 or MP3.
+
+After this the data will differ depending on the type of MP3 file...
+
+Most MP3 files today contain ID3 metadata, which precedes or follows the MP3 frames, as noted in the diagram. The data stream can contain an optional checksum.
+
+Bit 16 in the header contains a protection bit 
+
+0 - protected by CRC (16 bit CRC followed after header - remember header = 32 bits)
+1 - Not protected.
+
+
+CBR - Constant bit rate
+VBR - Variable bit rate
+ABR - Average bit rate
+
+### Things that influence frame size
+
+The frame size in an MP3 file is influenced by several factors, primarily the `MPEG version`, `Layer`, `Bitrate`, and `Sample Rate` used during the audio compression. 
+The frame size is a crucial parameter as it determines how much audio data is encoded within each frame of the MP3 file. Here are the main factors that influence the frame size:
+
+MPEG Version: MP3 supports three MPEG versions: MPEG Version 1, MPEG Version 2, and MPEG Version 2.5. Each version has slightly different specifications, and this affects the frame size calculation.
+
+Layer: MP3 allows three layers: Layer 1, Layer 2, and Layer 3. The layer also impacts the frame size calculation.
+
+Bitrate: The bitrate represents the amount of data used to represent one second of audio. Higher bitrates result in better audio quality but also larger file sizes. Different bitrates will affect the frame size.
+
+Sample Rate: The sample rate determines how many samples are taken per second to represent the audio. Common sample rates are 44.1 kHz (CD quality) and 48 kHz. The sample rate also influences the frame size.
+
+Padding Bit: The padding bit is an additional bit added to the frame if necessary to ensure that frames are aligned correctly. It affects the frame size calculation.
+
+The formula for calculating the frame size varies depending on the MPEG version and the layer used. Here are the frame size calculation formulas for different combinations:
+
+For MPEG Version 1, Layer 1: ((12 * Bitrate * 1000) / Sample Rate + Padding Bit) * 4
+
+For MPEG Version 1, Layer 2, and Layer 3: ((144 * Bitrate * 1000) / Sample Rate + Padding Bit)
+
+For MPEG Version 2 and Version 2.5, Layer 1: Not used in practice.
+
+For MPEG Version 2 and Version 2.5, Layer 2: ((144 * Bitrate * 1000) / Sample Rate + Padding Bit)
+
+For MPEG Version 2 and Version 2.5, Layer 3: ((72 * Bitrate * 1000) / Sample Rate + Padding Bit)
+
+Each frame in the MP3 file should be of the same size, except for the last frame, which might be smaller if the audio doesn't fill the complete frame. These frame size calculations are essential for accurately decoding and playing back the MP3 audio. Different combinations of the factors mentioned above result in different frame sizes, ultimately affecting the audio quality and file size of the MP3 file. 
+
+For a VBR file, the frame sizes differ which makes the process a lot more complicated. 
+
+Additionally, some files may use a hybrid approach, such as "ABR" (Average Bitrate) or "VBR with CBR header," making the identification more challenging.
+Mp3 files can contain additional metadata either at the begining or at the end of an audio file. These are known as ID3 tags
+
 ## Getting Started
 
 This project is intended to be used with the latest Active LTS release of [Node.js][nodejs].
