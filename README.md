@@ -1,4 +1,4 @@
-# node-typescript-boilerplate
+# MP3 Tech test
 
 [![Sponsor][sponsor-badge]][sponsor]
 [![TypeScript version][ts-badge]][typescript-5-0]
