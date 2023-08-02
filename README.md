@@ -51,6 +51,7 @@ Note: I had some issues with the pnpm registry not finding certain files so for 
 
 ## Available Scripts
 
+- `dev` - Runs a development build of the program
 - `clean` - remove coverage data, Jest cache and transpiled files,
 - `prebuild` - lint source files and tests before building,
 - `build` - transpile TypeScript to ES6,
