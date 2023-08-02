@@ -29,7 +29,6 @@ const storage = multer.diskStorage({
       file.originalname
     ).name;
     const fileName = originalFileNameWithoutExtension + '-' + uniqueSuffix + fileExtension;
-    console.log('File will be saved as:', fileName); // Add this line for debugging
     cb(null, fileName);
   },
 });
